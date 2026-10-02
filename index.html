@@ -3,165 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The unseen story | Realm</title>
-    <!-- Cinematic Fonts -->
+    <title>Biopic - Born of Shadows</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Supabase Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Three.js for GPU Particles -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- GSAP for Cinematic Timelines -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- External Modular CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- 3D WebGL Background Canvas -->
-    <canvas id="bg-canvas"></canvas>
+    <!-- REAL CINEMATIC BACKGROUND VIDEO -->
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="background.mp4" type="video/mp4">
+    </video>
     <div class="ambient-vignette"></div>
 
-    <!-- 1. VISITOR PASSWORD GATE -->
+    <!-- 1. PASSWORD GATE -->
     <div id="visitor-gate" class="screen-overlay">
-        <div class="gate-box">
-            <h2>ENTER GATEWAY</h2>
-            <input type="password" id="visitor-pass" class="gate-input" placeholder="Enter Visitor Pass">
-            <button class="gate-btn" onclick="unlockVisitorRealm()">Unseal Realm</button>
-            <div>
-                <button class="sub-link" onclick="openOwnerLoginModal()">Owner Access</button>
+        <div class="glass-card gate-box">
+            <h2>PASSWORD</h2>
+            <input type="password" id="visitor-pass" class="gate-input" placeholder="••••••••" maxlength="16">
+            <button class="gate-btn" onclick="unlockVisitorRealm()">LOGIN</button>
+            <div style="margin-top: 15px;">
+                <button class="sub-link" onclick="openOwnerLoginModal()">Owner Login</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. OWNER GMAIL LOGIN MODAL -->
+    <!-- 2. OWNER LOGIN MODAL -->
     <div id="owner-login-modal" class="screen-overlay" style="display: none;">
-        <div class="gate-box owner-box">
-            <h2 class="owner-title">Sovereign Portal</h2>
-            <input type="email" id="owner-email" class="gate-input" placeholder="Owner Gmail">
-            <input type="password" id="owner-pass" class="gate-input" placeholder="Secret Key">
-            <button class="gate-btn owner-btn" onclick="verifyOwnerAccess()">Authenticate</button>
-            <div>
+        <div class="glass-card gate-box">
+            <h2>OWNER LOGIN</h2>
+            <input type="email" id="owner-email" class="gate-input" placeholder="Gmail">
+            <input type="password" id="owner-pass" class="gate-input" placeholder="Password">
+            <button class="gate-btn" onclick="verifyOwnerAccess()">Login</button>
+            <div style="margin-top: 15px;">
                 <button class="sub-link" onclick="closeOwnerLoginModal()">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- 3. INNER CIRCLE SECRET GATE (Anti-Screenshot Protected Domain) -->
-    <div id="inner-circle-modal" class="screen-overlay" style="display: none;">
-        <div class="gate-box inner-box">
-            <h2 class="inner-title">INNER CIRCLE</h2>
-            <p class="secure-badge">🔒 Anti-Recording & Screenshot Shield Active</p>
-            <input type="password" id="inner-circle-pass" class="gate-input" placeholder="Close Friend Passcode">
-            <button class="gate-btn inner-btn" onclick="verifyInnerCircle()">Access Sanctum</button>
-            <div>
-                <button class="sub-link" onclick="closeInnerCircleModal()">Return</button>
-            </div>
-        </div>
+    <!-- CINEMATIC WELCOME OVERLAY -->
+    <div id="welcome-overlay">
+        <h1 class="welcome-text">WELCOME</h1>
     </div>
 
-    <!-- CINEMATIC ARISE SEQUENCE OVERLAY -->
-    <div id="arise-overlay">
-        <h1>ARISE</h1>
-    </div>
-
-    <!-- 4. MAIN MULTI-PAGE WEBSITE -->
+    <!-- 3. MAIN SITE INTERFACE -->
     <div id="main-site">
         <header>
-            <div class="logo">The unseen story</div>
+            <div class="logo">biopic</div>
             <ul class="nav-links">
                 <li class="active" onclick="switchPage('philosophy', this)">PHILOSOPHY</li>
                 <li onclick="switchPage('genesis', this)">GENESIS</li>
                 <li onclick="switchPage('origins', this)">ORIGINS</li>
                 <li onclick="switchPage('legends', this)">LEGENDS</li>
-                <li onclick="switchPage('contact', this)">CONTACT</li>
             </ul>
+            <div class="header-right">
+                <button class="icon-btn" onclick="toggleAudio()">MUTE</button>
+                <button class="sign-in-btn" onclick="openOwnerLoginModal()">SIGN IN</button>
+            </div>
         </header>
 
-        <!-- Page 1: Philosophy (Home & Core with Title) -->
+        <!-- PAGE: PHILOSOPHY -->
         <section id="page-philosophy" class="page-view active-page">
-            <div class="cinematic-title-wrap">
-                <h1 class="hero-title" id="hero-heading">The unseen story</h1>
-                <p class="hero-subtitle">BEYOND THE VEIL OF REALITY</p>
+            <div class="hero-content">
+                <p class="hero-top-tag">PASSFONT OF BIOPIC</p>
+                <h1 class="hero-title" id="hero-heading">BORN OF SHADOWS</h1>
             </div>
 
-            <!-- Secret Void Core (5 Second Hold Trigger) -->
+            <!-- TRUST CORE -->
             <div class="core-wrapper" id="secret-core-trigger">
                 <div class="orbit-ring ring-1"></div>
                 <div class="orbit-ring ring-2"></div>
                 <div class="charge-aura"></div>
                 <div class="void-core"></div>
+                <span class="core-label">TRUST</span>
             </div>
-            <p class="core-hint">Touch the abyss</p>
         </section>
 
-        <!-- Page 2: Genesis -->
+        <!-- PAGE: GENESIS -->
         <section id="page-genesis" class="page-view">
-            <div class="content-card">
-                <h3>THE GENESIS OF POWER</h3>
-                <p>Every sovereign starts from the shadows. Through unyielding discipline and testing limits, the system awakens.</p>
+            <div class="glass-card content-card">
+                <h3>GENESIS ARCHIVES</h3>
+                <p>The core structural framework initializing protocol sequences.</p>
             </div>
         </section>
 
-        <!-- Page 3: Origins -->
+        <!-- PAGE: ORIGINS -->
         <section id="page-origins" class="page-view">
-            <div class="content-card">
-                <h3>SHADOW ARCHIVES</h3>
-                <p>Knowledge is retained by those who survive the descent. The unseen chapters remain hidden in plain sight.</p>
+            <div class="glass-card content-card">
+                <h3>ORIGINS PROTOCOL</h3>
+                <p>Tracing back the roots of the shadow network.</p>
             </div>
         </section>
 
-        <!-- Page 4: Legends -->
+        <!-- PAGE: LEGENDS -->
         <section id="page-legends" class="page-view">
-            <div class="content-card">
-                <h3>MONARCH LEGENDS</h3>
-                <p>An eternal protocol running across dimensions, awaiting the authorized handler to execute the command.</p>
-            </div>
-        </section>
-
-        <!-- Page 5: Contact -->
-        <section id="page-contact" class="page-view">
-            <div class="content-card">
-                <h3>ESTABLISH FREQUENCY</h3>
-                <p>Secure pipeline open for authorized nodes. Direct transmission only.</p>
+            <div class="glass-card content-card">
+                <h3>LEGENDS</h3>
+                <p>Entities that transcended standard limitations.</p>
             </div>
         </section>
 
         <footer>
-            <button class="sub-link" onclick="openOwnerLoginModal()">Owner Control Panel</button>
+            <div class="footer-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <button class="sub-link" onclick="openCMSPanel()" style="font-size: 0.7rem; color: #7b2cbf;">Control Panel</button>
         </footer>
     </div>
 
-    <!-- OWNER CMS CONTROL PANEL (Dynamic Password & Title Manager) -->
+    <!-- 4. OWNER CMS CONTROL PANEL -->
     <div id="owner-cms-modal" class="screen-overlay" style="display: none;">
-        <div class="gate-box" style="max-width: 420px; text-align: left;">
-            <h2 style="text-align: center;">CMS CONTROL PANEL</h2>
+        <div class="glass-card cms-box">
+            <div class="cms-header">
+                <h2>Owner CMS Control</h2>
+                <button class="close-x" onclick="closeCMSPanel()">×</button>
+            </div>
             
-            <div style="margin: 12px 0;">
-                <label class="cms-label" style="font-size: 0.8rem; color: #c77dff;">Edit Cinematic Title</label>
-                <input type="text" id="cms-title-input" class="gate-input" value="The unseen story" oninput="updateHeroTitle(this.value)">
+            <div class="cms-row">
+                <span>Live Bio Sync</span>
+                <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
             </div>
-
-            <div style="margin: 12px 0;">
-                <label class="cms-label" style="font-size: 0.8rem; color: #c77dff;">Change Visitor Gateway Password</label>
-                <input type="text" id="cms-visitor-pass" class="gate-input" placeholder="New Visitor Password">
+            <div class="cms-row">
+                <span>Music Controller</span>
+                <label class="switch"><input type="checkbox" id="music-switch"><span class="slider"></span></label>
             </div>
-
-            <div style="margin: 12px 0;">
-                <label class="cms-label" style="font-size: 0.8rem; color: #c77dff;">Change Inner Circle (Core) Password</label>
-                <input type="text" id="cms-inner-pass" class="gate-input" placeholder="New Close Friend Password">
+            <div class="cms-row">
+                <span>Edit Bio</span>
+                <input type="text" id="cms-title-input" class="cms-text-input" value="BORN OF SHADOWS" oninput="updateHeroTitle(this.value)">
             </div>
-
-            <button class="gate-btn" onclick="saveCMSChanges()" style="margin-top: 10px;">Save & Update Live</button>
-            <div style="text-align: center;">
-                <button class="sub-link" onclick="closeCMSPanel()">Close Panel</button>
-            </div>
+            <button class="gate-btn" onclick="closeCMSPanel()" style="margin-top: 15px;">Apply Changes</button>
         </div>
     </div>
 
-    <!-- External Modular JavaScript -->
     <script src="app.js"></script>
 </body>
-                                                                                     </html>
-                
+</html>
