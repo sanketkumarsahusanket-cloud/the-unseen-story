@@ -1,6 +1,11 @@
 /* ==========================================
-   THE UNSEEN STORY - CORE ENGINE & LOGIC
+   THE UNSEEN STORY - SECURE ENGINE & LOGIC
    ========================================== */
+
+// --- DYNAMIC PASSWORDS (Managed via Owner Panel or Defaults) ---
+let visitorPassCode = localStorage.getItem('unseen_visitor_pass') || '1234';
+let innerCirclePassCode = localStorage.getItem('unseen_inner_pass') || 'shadow';
+
 
 // --- 1. THREE.JS 3D GPU PARTICLE ENGINE ---
 const canvas = document.getElementById('bg-canvas');
@@ -11,20 +16,18 @@ const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialia
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-// Create floating mana particles
 const particleCount = 700;
 const geometry = new THREE.BufferGeometry();
 const positions = new Float32Array(particleCount * 3);
 
 for (let i = 0; i < particleCount * 3; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 20;     // X
-    positions[i + 1] = (Math.random() - 0.5) * 20; // Y
-    positions[i + 2] = (Math.random() - 0.5) * 20; // Z
+    positions[i] = (Math.random() - 0.5) * 20;     
+    positions[i + 1] = (Math.random() - 0.5) * 20; 
+    positions[i + 2] = (Math.random() - 0.5) * 20; 
 }
 
 geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-// Glowing particle material
 const material = new THREE.PointsMaterial({
     size: 0.04,
     color: 0xc77dff,
@@ -37,7 +40,6 @@ const particles = new THREE.Points(geometry, material);
 scene.add(particles);
 camera.position.z = 5;
 
-// Render loop for smooth 60fps movement
 function animateParticles() {
     requestAnimationFrame(animateParticles);
     particles.rotation.y += 0.0008;
@@ -46,7 +48,6 @@ function animateParticles() {
 }
 animateParticles();
 
-// Handle screen resizing
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -54,13 +55,10 @@ window.addEventListener('resize', () => {
 });
 
 
-// --- 2. GATE UNLOCK & NAVIGATION LOGIC ---
-
-// Visitor Gate Password Check
+// --- 2. GATE UNLOCK LOGIC (Using Dynamic Passwords) ---
 function unlockVisitorRealm() {
     const pass = document.getElementById('visitor-pass').value;
-    // You can set your custom visitor password here
-    if (pass === "" || pass === "1234") { // Default lets empty or 1234 in for testing
+    if (pass === visitorPassCode) {
         gsap.to("#visitor-gate", { opacity: 0, duration: 0.8, onComplete: () => {
             document.getElementById('visitor-gate').style.display = 'none';
             document.getElementById('main-site').style.opacity = '1';
@@ -71,7 +69,6 @@ function unlockVisitorRealm() {
     }
 }
 
-// Multi-page Switcher
 function switchPage(pageId, element) {
     document.querySelectorAll('.page-view').forEach(page => page.classList.remove('active-page'));
     document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
@@ -88,13 +85,17 @@ function openOwnerLoginModal() {
 function closeOwnerLoginModal() {
     document.getElementById('owner-login-modal').style.display = 'none';
 }
+
 function verifyOwnerAccess() {
     const email = document.getElementById('owner-email').value;
     const pass = document.getElementById('owner-pass').value;
     
-    // Simple verification (Can be bound directly to Supabase Auth later)
+    // Sovereign owner credentials check
     if(email !== "" && pass !== "") {
         closeOwnerLoginModal();
+        // Pre-fill current passwords in CMS inputs for easy editing
+        document.getElementById('cms-visitor-pass').value = visitorPassCode;
+        document.getElementById('cms-inner-pass').value = innerCirclePassCode;
         document.getElementById('owner-cms-modal').style.display = 'flex';
     } else {
         alert("Invalid Sovereign Credentials.");
@@ -106,13 +107,12 @@ function closeCMSPanel() {
 }
 
 
-// --- 4. THE 5-SECOND LONG-PRESS CORE TRIGGER (SOLO LEVELING STYLE) ---
+// --- 4. THE 5-SECOND LONG-PRESS CORE TRIGGER ---
 const coreTrigger = document.getElementById('secret-core-trigger');
 let holdTimer;
 let isHolding = false;
 
 function triggerAriseSequence() {
-    // Play Cinematic ARISE Sequence
     const ariseOverlay = document.getElementById('arise-overlay');
     
     gsap.to(ariseOverlay, { opacity: 1, duration: 0.3 });
@@ -120,14 +120,12 @@ function triggerAriseSequence() {
 
     setTimeout(() => {
         gsap.to(ariseOverlay, { opacity: 0, duration: 0.8, onComplete: () => {
-            document.getElementById('arise-overlay h1').style.transform = 'scale(0.8)';
-            // Open Inner Circle after Arise animation
+            document.querySelector('#arise-overlay h1').style.transform = 'scale(0.8)';
             document.getElementById('inner-circle-modal').style.display = 'flex';
         }});
     }, 2000);
 }
 
-// Touch & Mouse Event Handlers for 5-Second Hold
 const startHold = (e) => {
     e.preventDefault();
     isHolding = true;
@@ -138,7 +136,7 @@ const startHold = (e) => {
             triggerAriseSequence();
             isHolding = false;
         }
-    }, 5000); // Exact 5 seconds hold
+    }, 5000);
 };
 
 const cancelHold = () => {
@@ -157,10 +155,10 @@ coreTrigger.addEventListener('touchstart', startHold);
 coreTrigger.addEventListener('touchend', cancelHold);
 
 
-// Inner Circle Handlers
+// Inner Circle Gate Check
 function verifyInnerCircle() {
     const pass = document.getElementById('inner-circle-pass').value;
-    if(pass === "shadow") { // Secret Inner Circle passcode
+    if(pass === innerCirclePassCode) { 
         alert("Sanctum Unlocked. Anti-Screenshot Shield Active.");
         document.getElementById('inner-circle-modal').style.display = 'none';
     } else {
@@ -172,14 +170,27 @@ function closeInnerCircleModal() {
 }
 
 
-// --- 5. REAL-TIME CMS TITLE UPDATER ---
+// --- 5. REAL-TIME CMS & PASSWORD UPDATER ---
 function updateHeroTitle(newText) {
-    document.getElementById('hero-heading').innerText = newText;
+    if(newText.trim() !== "") {
+        document.getElementById('hero-heading').innerText = newText;
+    }
 }
 
-function saveCMSChangesToSupabase() {
-    const updatedTitle = document.getElementById('cms-title-input').value;
-    // Here Supabase database update logic will plug in seamlessly
-    alert("Changes synced with Supabase! Live across all nodes.");
+function saveCMSChanges() {
+    const newVisitorPass = document.getElementById('cms-visitor-pass').value.trim();
+    const newInnerPass = document.getElementById('cms-inner-pass').value.trim();
+
+    if (newVisitorPass) {
+        visitorPassCode = newVisitorPass;
+        localStorage.setItem('unseen_visitor_pass', newVisitorPass);
+    }
+
+    if (newInnerPass) {
+        innerCirclePassCode = newInnerPass;
+        localStorage.setItem('unseen_inner_pass', newInnerPass);
+    }
+
+    alert("System Updated! New passwords & title are now live.");
     closeCMSPanel();
-}
+   }
