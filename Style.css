@@ -1,0 +1,352 @@
+/* ==========================================
+   THE UNSEEN STORY - DARK FANTASY STYLING
+   ========================================== */
+
+:root {
+    --bg-deep: #030305;
+    --void-core: #120926;
+    --purple-glow: #9d4edd;
+    --neon-violet: #c77dff;
+    --text-main: #e0aaff;
+    --text-muted: #7b2cbf;
+    --glass-bg: rgba(10, 5, 20, 0.7);
+    --border-glow: rgba(157, 78, 221, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    overflow: hidden;
+    position: relative;
+}
+
+/* 3D WebGL Canvas Background */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ambient-vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 30%, rgba(3, 3, 5, 0.85) 90%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Screen Overlays (Gates & Modals) */
+.screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(3, 3, 5, 0.95);
+    backdrop-filter: blur(15px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gate-box {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-glow);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(157, 78, 221, 0.15);
+}
+
+.gate-box h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--neon-violet);
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.gate-input {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--text-muted);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+    outline: none;
+    transition: 0.3s;
+}
+
+.gate-input:focus {
+    border-color: var(--purple-glow);
+    box-shadow: 0 0 10px rgba(157, 78, 221, 0.4);
+}
+
+.gate-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #7b2cbf, #5a189a);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.gate-btn:hover {
+    background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+    box-shadow: 0 0 15px var(--purple-glow);
+}
+
+.sub-link {
+    background: none;
+    border: none;
+    color: #7b2cbf;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.sub-link:hover {
+    color: var(--neon-violet);
+}
+
+/* Cinematic ARISE Overlay */
+#arise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#arise-overlay h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    color: #fff;
+    letter-spacing: 10px;
+    text-shadow: 0 0 30px var(--purple-glow), 0 0 60px var(--purple-glow);
+    transform: scale(0.8);
+}
+
+/* Main Site Structure */
+#main-site {
+    position: relative;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    opacity: 0; /* Unlocks after visitor gate */
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(10, 5, 20, 0.5);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(157, 78, 221, 0.15);
+    border-radius: 8px;
+}
+
+.logo {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--neon-violet);
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-links li {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-links li.active, .nav-links li:hover {
+    color: var(--neon-violet);
+    text-shadow: 0 0 8px rgba(199, 125, 255, 0.5);
+}
+
+/* Page Views */
+.page-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.page-view.active-page {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Cinematic Title & Core Layout */
+.cinematic-title-wrap {
+    text-align: center;
+    margin-bottom: 25px;
+    z-index: 5;
+}
+
+.hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+    margin-bottom: 5px;
+}
+
+.hero-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--text-muted);
+}
+
+/* Secret Void Core */
+.core-wrapper {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 15px 0;
+}
+
+.void-core {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, var(--neon-violet) 0%, var(--void-core) 70%, #000 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 25px var(--purple-glow), inset 0 0 15px #fff;
+    animation: corePulse 3s infinite ease-in-out;
+    z-index: 3;
+}
+
+.charge-aura {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border: 2px dashed rgba(157, 78, 221, 0.4);
+    border-radius: 50%;
+    animation: rotateAura 10s linear infinite;
+    z-index: 2;
+}
+
+.orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(199, 125, 255, 0.2);
+}
+
+.ring-1 { width: 110px; height: 110px; animation: rotateAura 6s linear infinite reverse; }
+.ring-2 { width: 130px; height: 130px; animation: rotateAura 15s linear infinite; }
+
+.core-hint {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 5px;
+}
+
+/* Content Cards for other pages */
+.content-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--border-glow);
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 450px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.content-card h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--neon-violet);
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.content-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+}
+
+@keyframes corePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 25px var(--purple-glow), inset 0 0 15px #fff; }
+    50% { transform: scale(1.1); box-shadow: 0 0 45px var(--neon-violet), inset 0 0 25px #fff; }
+}
+
+@keyframes rotateAura {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
