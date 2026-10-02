@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The unseen story | Realm</title>
+    <!-- Cinematic Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase Client Library for Real-time Backend -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Three.js for GPU Particles -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP for Cinematic Timelines -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- External Modular CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 3D WebGL Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-vignette"></div>
+
+    <!-- 1. VISITOR PASSWORD GATE -->
+    <div id="visitor-gate" class="screen-overlay">
+        <div class="gate-box">
+            <h2>ENTER GATEWAY</h2>
+            <input type="password" id="visitor-pass" class="gate-input" placeholder="••••••••">
+            <button class="gate-btn" onclick="unlockVisitorRealm()">Unseal Realm</button>
+            <div>
+                <button class="sub-link" onclick="openOwnerLoginModal()">Owner Access</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. OWNER GMAIL LOGIN MODAL -->
+    <div id="owner-login-modal" class="screen-overlay" style="display: none;">
+        <div class="gate-box owner-box">
+            <h2 class="owner-title">Sovereign Portal</h2>
+            <input type="email" id="owner-email" class="gate-input" placeholder="Owner Gmail">
+            <input type="password" id="owner-pass" class="gate-input" placeholder="Secret Key">
+            <button class="gate-btn owner-btn" onclick="verifyOwnerAccess()">Authenticate</button>
+            <div>
+                <button class="sub-link" onclick="closeOwnerLoginModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. INNER CIRCLE SECRET GATE (Anti-Screenshot Protected Domain) -->
+    <div id="inner-circle-modal" class="screen-overlay" style="display: none;">
+        <div class="gate-box inner-box">
+            <h2 class="inner-title">INNER CIRCLE</h2>
+            <p class="secure-badge">🔒 Anti-Recording & Screenshot Shield Active</p>
+            <input type="password" id="inner-circle-pass" class="gate-input" placeholder="Secret Passcode">
+            <button class="gate-btn inner-btn" onclick="verifyInnerCircle()">Access Sanctum</button>
+            <div>
+                <button class="sub-link" onclick="closeInnerCircleModal()">Return</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CINEMATIC ARISE SEQUENCE OVERLAY -->
+    <div id="arise-overlay">
+        <h1>ARISE</h1>
+    </div>
+
+    <!-- 4. MAIN MULTI-PAGE WEBSITE -->
+    <div id="main-site">
+        <header>
+            <div class="logo">The unseen story</div>
+            <ul class="nav-links">
+                <li class="active" onclick="switchPage('philosophy', this)">PHILOSOPHY</li>
+                <li onclick="switchPage('genesis', this)">GENESIS</li>
+                <li onclick="switchPage('origins', this)">ORIGINS</li>
+                <li onclick="switchPage('legends', this)">LEGENDS</li>
+                <li onclick="switchPage('contact', this)">CONTACT</li>
+            </ul>
+        </header>
+
+        <!-- Page 1: Philosophy (Home & Core with Title) -->
+        <section id="page-philosophy" class="page-view active-page">
+            <!-- Cinematic Title with Moving Particle Vibe -->
+            <div class="cinematic-title-wrap">
+                <h1 class="hero-title" id="hero-heading">The unseen story</h1>
+                <p class="hero-subtitle">BEYOND THE VEIL OF REALITY</p>
+            </div>
+
+            <!-- Clean Secret Void Core (No text, pure mystery - 5 Second Hold Trigger) -->
+            <div class="core-wrapper" id="secret-core-trigger">
+                <div class="orbit-ring ring-1"></div>
+                <div class="orbit-ring ring-2"></div>
+                <div class="charge-aura"></div>
+                <div class="void-core"></div>
+            </div>
+            <p class="core-hint">Touch the abyss</p>
+        </section>
+
+        <!-- Page 2: Genesis -->
+        <section id="page-genesis" class="page-view">
+            <div class="content-card">
+                <h3>THE GENESIS OF POWER</h3>
+                <p>Every sovereign starts from the shadows. Through unyielding discipline and testing limits, the system awakens.</p>
+            </div>
+        </section>
+
+        <!-- Page 3: Origins -->
+        <section id="page-origins" class="page-view">
+            <div class="content-card">
+                <h3>SHADOW ARCHIVES</h3>
+                <p>Knowledge is retained by those who survive the descent. The unseen chapters remain hidden in plain sight.</p>
+            </div>
+        </section>
+
+        <!-- Page 4: Legends -->
+        <section id="page-legends" class="page-view">
+            <div class="content-card">
+                <h3>MONARCH LEGENDS</h3>
+                <p>An eternal protocol running across dimensions, awaiting the authorized handler to execute the command.</p>
+            </div>
+        </section>
+
+        <!-- Page 5: Contact -->
+        <section id="page-contact" class="page-view">
+            <div class="content-card">
+                <h3>ESTABLISH FREQUENCY</h3>
+                <p>Secure pipeline open for authorized nodes. Direct transmission only.</p>
+            </div>
+        </section>
+
+        <footer>
+            <button class="sub-link" onclick="openOwnerLoginModal()">Owner Control Panel</button>
+        </footer>
+    </div>
+
+    <!-- OWNER CMS CONTROL PANEL (Real-time dynamic updates via Supabase) -->
+    <div id="owner-cms-modal" class="screen-overlay" style="display: none;">
+        <div class="gate-box" style="max-width: 500px;">
+            <h2>CMS CONTROL PANEL</h2>
+            <div style="text-align: left; margin: 20px 0;">
+                <label class="cms-label">Edit Cinematic Title</label>
+                <input type="text" id="cms-title-input" class="gate-input" value="The unseen story" oninput="updateHeroTitle(this.value)">
+            </div>
+            <button class="gate-btn" onclick="saveCMSChangesToSupabase()">Save & Push Live</button>
+            <div>
+                <button class="sub-link" onclick="closeCMSPanel()">Close Panel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Modular JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
