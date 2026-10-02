@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Supabase Client Library for Real-time Backend -->
+    <!-- Supabase Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Three.js for GPU Particles -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -27,7 +27,7 @@
     <div id="visitor-gate" class="screen-overlay">
         <div class="gate-box">
             <h2>ENTER GATEWAY</h2>
-            <input type="password" id="visitor-pass" class="gate-input" placeholder="••••••••">
+            <input type="password" id="visitor-pass" class="gate-input" placeholder="Enter Visitor Pass">
             <button class="gate-btn" onclick="unlockVisitorRealm()">Unseal Realm</button>
             <div>
                 <button class="sub-link" onclick="openOwnerLoginModal()">Owner Access</button>
@@ -53,7 +53,7 @@
         <div class="gate-box inner-box">
             <h2 class="inner-title">INNER CIRCLE</h2>
             <p class="secure-badge">🔒 Anti-Recording & Screenshot Shield Active</p>
-            <input type="password" id="inner-circle-pass" class="gate-input" placeholder="Secret Passcode">
+            <input type="password" id="inner-circle-pass" class="gate-input" placeholder="Close Friend Passcode">
             <button class="gate-btn inner-btn" onclick="verifyInnerCircle()">Access Sanctum</button>
             <div>
                 <button class="sub-link" onclick="closeInnerCircleModal()">Return</button>
@@ -81,13 +81,12 @@
 
         <!-- Page 1: Philosophy (Home & Core with Title) -->
         <section id="page-philosophy" class="page-view active-page">
-            <!-- Cinematic Title with Moving Particle Vibe -->
             <div class="cinematic-title-wrap">
                 <h1 class="hero-title" id="hero-heading">The unseen story</h1>
                 <p class="hero-subtitle">BEYOND THE VEIL OF REALITY</p>
             </div>
 
-            <!-- Clean Secret Void Core (No text, pure mystery - 5 Second Hold Trigger) -->
+            <!-- Secret Void Core (5 Second Hold Trigger) -->
             <div class="core-wrapper" id="secret-core-trigger">
                 <div class="orbit-ring ring-1"></div>
                 <div class="orbit-ring ring-2"></div>
@@ -134,16 +133,28 @@
         </footer>
     </div>
 
-    <!-- OWNER CMS CONTROL PANEL (Real-time dynamic updates via Supabase) -->
+    <!-- OWNER CMS CONTROL PANEL (Dynamic Password & Title Manager) -->
     <div id="owner-cms-modal" class="screen-overlay" style="display: none;">
-        <div class="gate-box" style="max-width: 500px;">
-            <h2>CMS CONTROL PANEL</h2>
-            <div style="text-align: left; margin: 20px 0;">
-                <label class="cms-label">Edit Cinematic Title</label>
+        <div class="gate-box" style="max-width: 420px; text-align: left;">
+            <h2 style="text-align: center;">CMS CONTROL PANEL</h2>
+            
+            <div style="margin: 12px 0;">
+                <label class="cms-label" style="font-size: 0.8rem; color: #c77dff;">Edit Cinematic Title</label>
                 <input type="text" id="cms-title-input" class="gate-input" value="The unseen story" oninput="updateHeroTitle(this.value)">
             </div>
-            <button class="gate-btn" onclick="saveCMSChangesToSupabase()">Save & Push Live</button>
-            <div>
+
+            <div style="margin: 12px 0;">
+                <label class="cms-label" style="font-size: 0.8rem; color: #c77dff;">Change Visitor Gateway Password</label>
+                <input type="text" id="cms-visitor-pass" class="gate-input" placeholder="New Visitor Password">
+            </div>
+
+            <div style="margin: 12px 0;">
+                <label class="cms-label" style="font-size: 0.8rem; color: #c77dff;">Change Inner Circle (Core) Password</label>
+                <input type="text" id="cms-inner-pass" class="gate-input" placeholder="New Close Friend Password">
+            </div>
+
+            <button class="gate-btn" onclick="saveCMSChanges()" style="margin-top: 10px;">Save & Update Live</button>
+            <div style="text-align: center;">
                 <button class="sub-link" onclick="closeCMSPanel()">Close Panel</button>
             </div>
         </div>
@@ -152,4 +163,5 @@
     <!-- External Modular JavaScript -->
     <script src="app.js"></script>
 </body>
-</html>
+                                                                                     </html>
+                
