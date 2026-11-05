@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
 from aiogram.types import Message, MessageEntity
 
-TOKEN = "9264737616:AAHeEKoGe35PIJdKlwnA2p0me44IOla8mAM"
+TOKEN = "9209616282:AAGsRLZuk1uViJgdXbw2mpEvsW0aX4553RY"
 
 bot = Bot(TOKEN)
 dp = Dispatcher()
