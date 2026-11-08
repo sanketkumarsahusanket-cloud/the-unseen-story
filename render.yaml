@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: temp-mail-bot
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: CHANNEL_USERNAME
+        value: "@bkcd_gc"
+      - key: CHANNEL_URL
+        value: "https://t.me/bkcd_gc"
+      - key: PYTHON_VERSION
+        value: "3.11.9"
